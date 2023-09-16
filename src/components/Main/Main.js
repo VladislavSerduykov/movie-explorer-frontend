@@ -1,13 +1,16 @@
-import Header from "../Header/Header";
 import Promo from "../Promo/Promo";
 import About from "../About/About";
+import Footer from '../Footer/Footer';
+import HeaderAuth from "../HeaderAuth/HeaderAuth";
+import Header from "../Header/Header";
 
-function Main() {
+function Main({loggedIn, pathname}) {
   return (
     <>
-      <Header />
+      {loggedIn ? <HeaderAuth isMainPage={pathname}/> : <Header/>}
       <Promo />
       <About/>
+      <Footer/>
     </>
   );
 }
