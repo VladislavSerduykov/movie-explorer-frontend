@@ -7,7 +7,6 @@ import Header from "../Header/Header";
 function Main({loggedIn, pathname}) {
   return (
     <>
-      {loggedIn ? <HeaderAuth isMainPage={pathname}/> : <Header/>}
       <Promo />
       <About/>
       <Footer/>

@@ -11,7 +11,7 @@ function HeaderAuth({ isMainPage }) {
       <div className='header__auth-nav'>
         <Link to = '/'><img src={logo} alt="logo" className="header__auth-logo" /></Link>
         <Link to='/movies' className='header__auth-link'>Фильмы</Link>
-        <Link to='/savedMovies' className='header__auth-link'>Сохраненные фильмы</Link>
+        <Link to='/saved-movies' className='header__auth-link'>Сохраненные фильмы</Link>
       </div>
       <div className='header__auth-profile'>
           <Link to='/profile' className='header__auth-link'>Аккаунт</Link>

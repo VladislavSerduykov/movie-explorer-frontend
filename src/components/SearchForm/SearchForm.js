@@ -16,7 +16,7 @@ function SearchForm() {
                 placeholder='Фильм'/>
             </div>
             <div className="search__container">
-                <button className="search__button-find" type='submit'>Найти</button>
+                <button className="search__button-find" type='button'>Найти</button>
                 <div class="search__separator"></div>
                 <label class="search__toggle-button">
                     <input type="checkbox" class="search__input-hidden"/>

@@ -1,0 +1,69 @@
+.movie-card{
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.movie-card__cover{
+    max-width: 100%;
+}
+
+.movie-card__container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid  #424242;
+}
+
+.movie-card__title{
+    font-family: Inter;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0px;
+    color: #fff;
+    margin: 0;
+}
+
+.movie-card__like{
+    background-color: #313131;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background-repeat: no-repeat;
+    background-position: center center;
+    cursor: pointer;
+    transition: .2s ease-in;
+}
+
+.movie-card__like:hover{
+    opacity: .5;
+}
+
+.movie-card__like_delete{
+    background-image: url('../../images//deleteIcon.svg');
+}
+
+.movie-card__like_unactive{
+    background-image: url('../../images//likeUnactive.svg');
+}
+
+.movie-card__like_active{
+    background-image: url(../../images/likeActive.svg) ;
+}
+
+.movie-card__duration{
+    font-family: Inter;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #8b8b88;
+    margin: 0;
+    padding-top: 6px;
+}
