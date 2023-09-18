@@ -21,6 +21,17 @@
   margin: 0;
 }
 
+.header__burger{
+  background-image: url('../../images/headerBurger.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  width: 44px;
+  height: 44px;
+}
+
 .header__button{
   border: none;
   border-radius: 3px;
@@ -55,14 +66,32 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width:800px) {
     .header {
       padding: 18px 30px;
     }
-  }
+}
   
-  @media screen and (max-width: 540px) {
+  @media screen and (max-width:420px) {
     .header {
       padding: 18px 14px;
     }
+
+    .header__nav{
+      gap:14px
+    }
+
+    .header__button{
+      font-size: 10px;
+      padding: 0;
+    }
+
+    .header__button_signin{
+      width: 54px;
+      height: 26px;
   }
+  
+  .header__button_signup{
+    width: 64px;
+  }
+}

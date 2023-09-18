@@ -50,13 +50,13 @@
 }
 
 @media screen and (max-width: 800px) {
-    .header {
+    .header__auth {
       padding: 18px 30px;
     }
-  }
+}
   
-  @media screen and (max-width: 540px) {
-    .header {
+  @media screen and (max-width: 420px) {
+    .header__auth {
       padding: 18px 14px;
     }
-  }
+}

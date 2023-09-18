@@ -15,25 +15,15 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(true);
-  const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [currentUser, setCurrentUser] = useState({})
 
+  const headerPaths = ['/', '/signin', '/signup', '/movies', '/saved-movies', '/profile'];
 
   const { pathname } = useLocation();
-  const navigate = useNavigate();
-
-
-  function openPopup() {
-    setIsOpenPopup(true);
-  }
-
-  function closePopup() {
-    setIsOpenPopup(false);
-  }
   return (
     <>
     <CurrentUserContext.Provider value={currentUser}>
-      {pathname !== '*' && pathname !== '/signin' && pathname !== '/signup' && (loggedIn ? <HeaderAuth isMainPage={pathname} /> : <Header />)}
+      {headerPaths.includes(pathname) && (loggedIn ? <HeaderAuth isMainPage={pathname} /> : <Header isLoggedIn={loggedIn} />)}
     <Routes>
       <Route path='/' element={<Main/>}/>
       <Route path='/signin' element={<Login/>}/>

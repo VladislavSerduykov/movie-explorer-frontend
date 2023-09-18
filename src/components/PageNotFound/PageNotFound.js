@@ -8,9 +8,9 @@ function PageNotFound(){
 
     return (
         <section className='page-404'>
-            <h2 className="page-404__title">404</h2>
-            <p className="page-404__text">Страница не найдена</p>
-            <Link onClick={lastPage} className='page-404__link'>Назад</Link>
+                <h2 className="page-404__title">404</h2>
+                <p className="page-404__text">Страница не найдена</p>
+                <Link onClick={lastPage} className='page-404__link'>Назад</Link>
         </section>
     )
 }
