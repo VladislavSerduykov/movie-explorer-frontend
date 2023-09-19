@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import "./SearchForm.css";
-import icon from "../../images/searchIcon.svg";
 
 function SearchForm() {
   return (
     <form className="search__form">
       <div className="search">
         <div className="search__inputs">
-          <input type="text" className="search__item" placeholder="Фильм" />
+          <input type="text" className="search__item" placeholder="Фильм" required />
           <button className="search__button-find" type="button">
             Найти
           </button>

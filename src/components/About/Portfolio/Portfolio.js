@@ -5,16 +5,13 @@ function Portfolio() {
         <>
             <ul className='portfolio__items'>
                 <li className='portfolio__item'>
-                    <p className='portfolio__text'>Статичный сайт</p>
-                    <a href="" className="portfolio__link" target='blank'></a>
+                    <a href="https://github.com/VladislavSerduykov/how-to-learn" className="portfolio__link" target='blank' rel="noreferrer">Статичный сайт</a>
                 </li>
                 <li className='portfolio__item'>
-                    <p className='portfolio__text'>Адаптивный сайт</p>
-                    <a href="" className='portfolio__link' target='blank'></a>
+                    <a href="https://github.com/VladislavSerduykov/russian-travel" className='portfolio__link' target='blank' rel="noreferrer">Адаптивный сайт</a>
                 </li>
                 <li className='portfolio__item'>
-                    <p className='portfolio__text'>Одностраничное приложение</p>
-                    <a href='' className='portfolio__link' target='blank'></a>
+                    <a href="https://github.com/VladislavSerduykov/react-mesto-api-full-gha" className='portfolio__link' target='blank' rel="noreferrer">Одностраничное приложение</a>
                 </li>
             </ul>
         </>
