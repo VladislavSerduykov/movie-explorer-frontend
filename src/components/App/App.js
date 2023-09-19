@@ -14,7 +14,7 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const [currentUser, setCurrentUser] = useState({})
 
   const headerPaths = ['/', '/signin', '/signup', '/movies', '/saved-movies', '/profile'];
@@ -27,9 +27,9 @@ function App() {
       <Route path='/' element={<Main isLoggedIn={loggedIn}/>}/>
       <Route path='/signin' element={<Login/>}/>
       <Route path='/signup' element={<Register/>}/>
-      <Route path='/movies' element={<Movies/>}/>
-      <Route path='/saved-movies' element={<SavedMovies/>}/>
-      <Route path='/profile' element={<Profile/>}/>
+      <Route path='/movies' element={<Movies isLoggedIn={loggedIn}/>}/>
+      <Route path='/saved-movies' element={<SavedMovies isLoggedIn={loggedIn}/>}/>
+      <Route path='/profile' element={<Profile isLoggedIn={loggedIn}/>}/>
       <Route path='*' element={<PageNotFound/>}/>
 
       </Routes>
