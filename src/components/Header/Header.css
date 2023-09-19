@@ -1,97 +1,31 @@
-.header{
-    display: flex;
-    background-color: #073042;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 70px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 70px;
 }
 
-.header__logo{
-    transition: opacity .1s ease-in-out;
+.header__logo {
+  transition: .2s ease-in-out;
 }
 
 .header__logo:hover {
-    opacity: .5;
-    cursor: pointer;
-}
-
-.header__nav{
-  display: flex;
-  gap: 30px;
-  margin: 0;
-}
-
-.header__burger{
-  background-image: url('../../images/headerBurger.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  padding: 0;
-  border: none;
-  width: 44px;
-  height: 44px;
-}
-
-.header__button{
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  font-family: Inter;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  letter-spacing: 0px;
-  color: #000;
-  transition: opacity .1s ease-in-out;
-}
-
-.header__button_signin{
-  width: 76px;
-  height: 32px;
-  background-color: 
-  #3DDC84;
-
-}
-
-.header__button_signup{
-  align-self: center;
-  width: 77px;
-  height: 16px;
-  background-color: transparent;
-  color: #fff;
-}
-
-.header__button:hover {
   opacity: .5;
   cursor: pointer;
 }
 
-@media screen and (max-width:800px) {
-    .header {
-      padding: 18px 30px;
-    }
+.header_type_auth {
+  background-color: #073042;
 }
-  
-  @media screen and (max-width:420px) {
-    .header {
-      padding: 18px 14px;
-    }
 
-    .header__nav{
-      gap:14px
-    }
-
-    .header__button{
-      font-size: 10px;
-      padding: 0;
-    }
-
-    .header__button_signin{
-      width: 54px;
-      height: 26px;
+@media screen and (max-width: 820px) {
+  .header {
+    padding: 18px 30px;
   }
-  
-  .header__button_signup{
-    width: 64px;
+}
+
+@media screen and (max-width: 400px) {
+  .header {
+    padding: 18px 14px;
   }
 }

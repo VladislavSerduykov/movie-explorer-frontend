@@ -1,4 +1,4 @@
-.project__container{
+.project__container {
     display: flex;
     list-style: none;
     margin: 0;
@@ -16,13 +16,13 @@
     gap: 0px;
 }
 
-.project__element{
+.project__element {
     display: flex;
     flex-direction: column;
     gap: 26px;
 }
 
-.project__element-title{
+.project__element-title {
     font-family: Inter;
     font-size: 20px;
     font-weight: 400;
@@ -32,7 +32,7 @@
     margin: 0;
 }
 
-.project__element-text{
+.project__element-text {
     max-width: 550px;
     font-family: Inter;
     font-size: 14px;
@@ -43,18 +43,19 @@
     margin: 0;
 }
 
-.project__graphic{
+.project__graphic {
     text-align: center;
 }
 
-.project__graphic:first-of-type{
+.project__graphic:first-of-type {
     width: 20%;
 }
 
-.project__graphic:last-of-type{
+.project__graphic:last-of-type {
     width: 80%;
 }
-.project__graphic-title{
+
+.project__graphic-title {
     padding: 9px 14px;
     background-color: #3DDC84;
     font-family: Inter;
@@ -65,12 +66,12 @@
     margin: 0;
 }
 
-.project__graphic-title_type_dark{
+.project__graphic-title_type_dark {
     color: #fff;
     background-color: #303030;
 }
 
-.project__graphic-text{
+.project__graphic-text {
     padding: 9px 14px;
     margin: 0;
     color: #8B8B8B;
@@ -78,5 +79,73 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 17px;
-    letter-spacing: 0px;   
+    letter-spacing: 0px;
+}
+
+
+@media screen and (max-width:820px) {
+    .project__container {
+        gap: 30px;
+    }
+
+    .project__element {
+        gap: 22px;
+    }
+
+    .project__container:last-of-type {
+        margin-top: 93px;
+    }
+
+    .project__graphic-title {
+        padding: 9px 10px;
+    }
+}
+
+@media screen and (max-width:560px) {
+    .project__element-title {
+        font-size: 18px;
+    } 
+
+    .project__element-text{
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 330px) {
+    .project__container {
+        flex-direction: column;
+        gap: 56px;
+    }
+
+    .project__container:first-of-type,
+    .project__container:last-of-type {
+        margin-top: 60px;
+    }
+
+    .project__container:last-of-type{
+        flex-direction: row;
+    }
+
+    .project__graphic-title {
+        padding: 10px 11px;
+        font-size: 11px;
+    }
+
+    .project__graphic-text {
+        font-size: 11px;
+        padding: 0;
+        padding-top: 10px;
+    }
+
+    .project__element {
+        gap: 16px;
+    }
+
+    .project__graphic:first-of-type {
+        width: 35.3%;
+    }
+    
+    .project__graphic:last-of-type {
+        width: 64.7%;
+    }
 }

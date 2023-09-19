@@ -2,28 +2,13 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 
-function Header({ isLoggedIn }) {
+function Header({ children,isMainPage }) {
   return (
-    <header className="header">
+    <header className={`header ${isMainPage ? 'header_type_auth' : ''}`}>
       <Link to="/">
         <img src={logo} alt="logo" className="header__logo" />
       </Link>
-      {isLoggedIn ? (
-        <button type="button" className="header__burger" />
-      ) : (
-        <div className="header__nav">
-          <Link to="/signup" style={{ alignSelf: "center" }}>
-            <button className="header__button header__button_signup">
-              Регистрация
-            </button>
-          </Link>
-          <Link to="/signin">
-            <button className="header__button header__button_signin">
-              Войти
-            </button>
-          </Link>
-        </div>
-      )}
+      {children}
     </header>
   );
 }

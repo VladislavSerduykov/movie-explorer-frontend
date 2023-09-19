@@ -14,8 +14,7 @@ function Me() {
                 </p>
                 <a href="https://github.com/VladislavSerduykov" className='me__info_text me__info_text_link'>GitHub</a>
                 </div>
-
-                <img src="https://phonoteka.org/uploads/posts/2022-06/1655380377_51-phonoteka-org-p-raian-gosling-oboi-65.jpg" alt="" className='me__image'/>
+                <img src="https://phonoteka.org/uploads/posts/2022-06/1655380377_51-phonoteka-org-p-raian-gosling-oboi-65.jpg" alt="Фотография" className='me__image'/>
             </div>
             </>
     );

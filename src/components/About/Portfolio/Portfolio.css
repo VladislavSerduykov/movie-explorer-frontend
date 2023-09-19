@@ -38,3 +38,20 @@
     opacity: .6;
     cursor: pointer;
 }
+
+@media screen and (max-width:820px) {
+    .portfolio__text{
+        font-size: 28px;
+    }
+}
+
+@media screen and (max-width:390px) {
+    .portfolio__items{
+        padding-top: 40px;
+    }
+    .portfolio__text{
+        line-height: 20px;
+        font-size: 18px;
+    }
+}
+
