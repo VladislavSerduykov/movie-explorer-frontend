@@ -1,0 +1,42 @@
+.page-404{
+    height: 100vh;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.page-404__title{
+    font-family: "Inter", Helvetica, Arial, sans-serif;
+    font-size: 140px;
+    font-weight: 400;
+    line-height: 169px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #fff;
+    padding-bottom: 5px;
+    margin: 0;
+}
+
+.page-404__text{
+    margin: 0;
+    font-family: "Inter", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #fff;
+}
+
+.page-404__link{
+    margin-top: 184px;
+    font-family: "Inter", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #4285F4;
+    text-decoration: none;
+}
