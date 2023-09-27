@@ -1,31 +1,75 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import './MovieCard.css'
-import photo from '../../images/photo.svg'
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import "./MovieCard.css";
+import { MovieContext } from "../../contexts/MovieContext";
 
-function MovieCard({ card }){
-const [isLiked,setIsLiked] = useState(false)
+function MovieCard({ movie, saveMovie, removeMovie }) {
+  const { pathname } = useLocation();
+  const { savedMovies } = useContext(MovieContext);
 
-function toggleLike (){
-    setIsLiked(!isLiked)
-}
+  const [isSaved, setIsSaved] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [foundMovie, setFoundMovie] = useState(null);
 
-const { pathname } = useLocation();
+  useEffect(() => {
+    const found = savedMovies.find(
+      (savedMovie) => savedMovie.movieId === movie.movieId
+    );
+    setFoundMovie(found);
+    setIsSaved(!!found);
+  }, [movie._id, savedMovies]);
 
-    return (
-         <article className='movie-card'>
-            <img src={card.image} alt={card.title} className='movie-card__cover' />
-            <div className="movie-card__container">
-                <h3 className="movie-card__title">{card.title}</h3>
-                {pathname === '/saved-movies' ? (
-                    <button type='button' className='movie-card__like movie-card__like_delete'></button>
-                ) : (
-                <button onClick={toggleLike} type='button' className={`movie-card__like movie-card__like${!isLiked ? '_unactive' : '_active'}`}></button>
-                )}
-            </div>
-            <p className="movie-card__duration">{card.duration}</p>
-         </article>
-    )
+  useEffect(() => {
+    if (typeof movie.image === "object") {
+      setImageUrl(`https://api.nomoreparties.co/${movie.image.url}`);
+    } else if (typeof movie.image === "string") {
+      setImageUrl(movie.image);
+    }
+  }, [movie.image]);
+
+  const handleMovieBtnClick = useCallback(async () => {
+    if (pathname === "/movies") {
+      if (!isSaved) {
+        saveMovie(movie);
+      } else {
+        if (foundMovie && foundMovie._id) {
+          removeMovie(foundMovie._id);
+        }
+      }
+    } else if (pathname === "/saved-movies") {
+      if (movie._id) {
+        removeMovie(movie._id);
+      }
+    }
+  }, [isSaved, movie, pathname, foundMovie, saveMovie, removeMovie]);
+  return (
+    <article className="movie-card">
+      <a href={movie.trailerLink} target="blank" rel="noopener noreferrer">
+        <img src={imageUrl} alt={movie.nameRU} className="movie-card__cover" />
+      </a>
+      <div className="movie-card__container">
+        <h3 className="movie-card__title">{movie.nameRU}</h3>
+
+        <button
+          type="button"
+          onClick={handleMovieBtnClick}
+          className={`movie-card__like ${
+            pathname === "/movies"
+              ? `movie-card__like_unactive ${
+                  isSaved ? "movie-card__like_active" : ""
+                }`
+              : "movie-card__like_delete"
+          }`}
+        ></button>
+      </div>
+      <p className="movie-card__duration">
+        {movie.duration > 59 ? `${Math.floor(movie.duration / 60)} ч ` : null}{" "}
+        {movie.duration > 59
+          ? `${movie.duration - Math.floor(movie.duration / 60) * 60} м`
+          : `${movie.duration} м`}
+      </p>
+    </article>
+  );
 }
 
 export default MovieCard;

@@ -1,4 +1,4 @@
-import { config } from './apiConfig'
+import baseUrl from './apiConfig'
 
 class Auth {
   constructor(baseUrl) {
@@ -11,7 +11,7 @@ class Auth {
     });
   }
 
-  register({ email, password }) {
+  register(data) {
     const url = `${this._baseUrl}/signup`
 
     return fetch(url, {
@@ -19,14 +19,14 @@ class Auth {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(data),
     }).then((res) => {
       if (res.ok) return res.json();
       return this._getError(res);
     });
   }
 
-  authorize({ email, password }) {
+  authorize(data) {
     const url = `${this._baseUrl}/signin`
 
     return fetch(url, {
@@ -34,7 +34,7 @@ class Auth {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(data),
     }).then((res) => {
       if (res.ok) return res.json();
       return this._getError(res);
@@ -55,9 +55,10 @@ class Auth {
         return this._getErrorFromServer(res);
       });
   }
+
 }
 
 
-const auth = new Auth(config.baseUrl);
+const auth = new Auth(baseUrl);
 
 export default auth;

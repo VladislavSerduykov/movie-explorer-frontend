@@ -1,78 +1,71 @@
-import { useNavigate } from "react-router-dom";
+import "../Form/Form.css";
 import Form from "../Form/Form";
-import React, { useState } from "react";
-import auth from "../../utils/auth";
-import validator from "validator";
+import FormInput from "../FormInput/FormInput";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useContext } from "react";
+import FormValidation from "../../hooks/formValidation";
 
 function Register() {
-  const [inputs, setInputs] = useState({});
-  const [errors, setErrors] = useState({});
-  const [isValid, setIsValid] = useState(false);
+  const { errMsg, handleSignUp, setErrMsg } = useContext(CurrentUserContext);
+  const { values, handleChange, errors, isValid, resetForm } = FormValidation({
+    email: "",
+    name: "",
+    password: "",
+  });
 
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    const target = e.target;
-
-    if (name === "email") {
-      if (
-        validator.isEmail(value)
-          ? target.setCustomValidity("Некорректный адрес почты")
-          : target.setCustomValidity("")
-      );
-    }
-
-    setInputs({ ...inputs, [name]: value });
-    setErrors({ ...errors, [name]: target.validationMessage });
-    setIsValid(target.closest("form").checkValidity());
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSignUp(values)
+      .then(() => resetForm())
+      .catch((err) => {
+        console.log(err);
+        setErrMsg(err.message);
+      });
   };
-
 
   return (
     <Form
-      title="Добро пожаловать"
-      buttonText="Зарегистрироваться"
-      text="Уже зарегистрированы?"
-      link="Войти"
-      path="/signin "
+      title={"Добро пожаловать"}
+      buttonText={"Регистрация"}
+      text={"Уже зарегистрированы?"}
+      link={"/signin"}
+      linkText={"Войти"}
+      error={errMsg}
+      handleSubmit={handleSubmit}
+      disabled={!isValid}
     >
-      <label className="form__item">
-        <p className="form__input-text">Имя</p>
-        <input
-          type="email"
-          className="form__input"
-          value={inputs.name}
-          onChange={handleChange}
-          minLength="2"
-          maxLength="40"
-          required
-        />
-        <p className="form__input-error">Что-то пошло не так...</p>
-      </label>
-
-      <label className="form__item">
-        <p className="form__input-text">E-mail</p>
-        <input
-          type="email"
-          className="form__input"
-          value={inputs.email}
-          onChange={handleChange}
-          minLength="8"
-          maxLength="40"
-          required
-        />
-        <p className="form__input-error">Что-то пошло не так...</p>
-      </label>
-
-      <label className="form__item">
-        <p className="form__input-text">Пароль</p>
-        <input type="password" required className="form__input" />
-        <p className="form__input-error form__input-error_dark">
-          Что-то пошло не так...
-        </p>
-      </label>
+      <FormInput
+        name="name"
+        title="Имя"
+        type="text"
+        placeholder="Ваше имя"
+        required={true}
+        minLength="8"
+        maxLength="40"
+        value={values.name}
+        error={errors.name}
+        onChange={handleChange}
+      />
+      <FormInput 
+              name="email"
+              title="E-mail"
+              type="email"
+              placeholder="E-mail"
+              required={true}
+              value={values.email}
+              error={errors.email}
+              onChange={handleChange}/>
+      <FormInput 
+              name="password"
+              title="Пароль"
+              type="password"
+              placeholder="Пароль"
+              required={true}
+              minLength="8"
+              maxLength="40"
+              value={values.password}
+              error={errors.password}
+              onChange={handleChange}/>
     </Form>
   );
 }

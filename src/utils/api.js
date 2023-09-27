@@ -1,120 +1,58 @@
-import { config } from "./apiConfig";
+import baseUrl from './apiConfig'
 
-class Api {
-  constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
-    this._headers = headers;
-  }
-
-  setToken(token) {
-    this._headers.authorization = `Bearer ${token}`;
-  }
-
-  _checkResponse(res) {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Ошибка: ${res.status}`);
+const createRequest = async (url, method, body = null, token = null) => {
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
+    };
+  
+    if (token) options.headers['Authorization'] = `Bearer ${token}`;
+    if (body) options.body = JSON.stringify(body);
+  
+    const response = await fetch(url, options);
+    const data = await response.json();
+  
+    if (!response.ok) {
+      throw new Error(data.message);
     }
+  
+    return data;
   }
-
-  getUserInfo() {
-    const url = `${this._baseUrl}/users/me`;
-    return fetch(url, {
-      method: "GET",
-      headers: this._headers,
-    }).then(this._checkResponse);
-  }
-
-
-  getCardList() {
-    const url = `${this._baseUrl}/cards`;
-
-    return fetch(url, {
-      method: "GET",
-      headers: this._headers,
-    }).then(this._checkResponse);
-  }
-
-  changeUserInfo({ name, about }) {
-    const url = `${this._baseUrl}/users/me`;
-
-    return fetch(url, {
-      method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify({
-        name,
-        about,
-      }),
-    }).then(this._checkResponse);
-  }
-
-  addNewCard({ name, link }) {
-    const url = `${this._baseUrl}/cards`;
-
-    return fetch(url, {
-      method: "POST",
-      headers: this._headers,
-      body: JSON.stringify({
-        name,
-        link,
-      }),
-    }).then(this._checkResponse);
-  }
-
-  _addLikes(cardId) {
-    const url = `${this._baseUrl}/cards/${cardId}/likes`;
-
-    return fetch(url, {
-      method: "PUT",
-      headers: this._headers,
-    })
-      .then(this._checkResponse)
-  }
-
-  _deleteLikes(cardId) {
-    const url = `${this._baseUrl}/cards/${cardId}/likes`;
-
-    return fetch(url, {
-      method: "DELETE",
-      headers: this._headers,
-    })
-      .then(this._checkResponse)
-  }
-
-  toggleLikes(cardId, isLiked) {
-    if (isLiked) {
-      return this._deleteLikes(cardId);
-    } else {
-      return this._addLikes(cardId);
-    }
-  }
-
-  deleteCard(cardId) {
-    const url = `${this._baseUrl}/cards/${cardId}`;
-
-    return fetch(url, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then((res) => {
-      if (res.ok) return Promise.resolve();
-      return res.json();
-    });
-  }
-
-  setUserImage(link) {
-    const url = `${this._baseUrl}/users/me/avatar`;
-
-    return fetch(url, {
-      method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify({
-        avatar: link,
-      }),
-    }).then(this._checkResponse);
-  }
-}
-
-const api = new Api(config);
-
-export default api;
+  
+  const getUser = (token) => createRequest(`${baseUrl}/users/me`, 'GET', null, token);
+  
+  const updateUser = (user) => createRequest(`${baseUrl}/users/me`, 'PATCH', {
+    name: user.name,
+    email: user.email
+  });
+  
+  const getMovies = () => createRequest(`${baseUrl}/movies`, 'GET');
+  
+  const addMovie = (movie) => createRequest(`${baseUrl}/movies`, 'POST', {
+    country: movie.country,
+    director: movie.director,
+    duration: movie.duration,
+    year: movie.year,
+    description: movie.description,
+    image: `https://api.nomoreparties.co/${movie.image.url}`,
+    trailerLink: movie.trailerLink,
+    nameRU: movie.nameRU,
+    nameEN: movie.nameEN,
+    thumbnail: `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`,
+    movieId: movie.id
+  });
+  
+  const deleteMovie = (id) => createRequest(`${baseUrl}/movies/${id}`, 'DELETE');
+  
+  const api = {
+    getUser,
+    updateUser,
+    getMovies,
+    addMovie,
+    deleteMovie
+  };
+  
+  export default api;

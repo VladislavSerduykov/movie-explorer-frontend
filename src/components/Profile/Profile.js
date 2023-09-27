@@ -1,61 +1,126 @@
-import React, { useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Profile.css";
-import Header from "../Header/Header";
-import Navigation from "../Navigation/Navigation";
-import HeaderAuth from "../HeaderAuth/HeaderAuth";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import api from "../../utils/api";
+import FormValidation from "../../hooks/formValidation";
 
-function Profile({ name, email,isLoggedIn }) {
+function Profile() {
+  const { user, setUser, handleSignout, errMsg, setErrMsg } =
+    useContext(CurrentUserContext);
+
   const [isEditing, setIsEditing] = useState(false);
 
+  const { values, handleChange, errors, isValid, resetForm } = FormValidation({
+    email: user.name,
+    password: user.email,
+  });
+
+  useEffect(() => {
+    if (user) {
+      resetForm(
+        {
+          name: user.name,
+          email: user.email,
+        },
+        {},
+        false
+      );
+    }
+  }, [user, resetForm]);
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      if (!values.name || !values.email) {
+        setErrMsg("Вы пропустили поля");
+        return;
+      }
+      api
+        .updateUser(values)
+        .then((data) => {
+          setUser({ name: data.name, email: data.email });
+          setIsEditing(false);
+          resetForm();
+        })
+        .catch((err) => {
+          setErrMsg(err);
+        });
+    },
+    [setUser, setErrMsg, values, resetForm]
+  );
+
   return (
-    <>
-      <Header isMainPage={false}>
-        {isLoggedIn ? <Navigation isMainPage={false} /> : <HeaderAuth />}
-      </Header>
-      <section className="profile">
-        <h2 className="profile__title">Привет, {name || "Владислав"}!</h2>
-        <form className="profile__info">
-          <p className="profile__text">Имя</p>
-          <div className="profile__area">
-            {isEditing ? (
-              <input
-                className="profile__text"
-                defaultValue="Владислав"
-                value={name}
-                required
-              />
-            ) : (
-              <p className="profile__text">{name || "Владислав"}</p>
-            )}
-          </div>
-        </form>
-        <form className="profile__info">
-          <p className="profile__text">E-mail</p>
-          <div className="profile__area">
-            {isEditing ? (
-              <input
-                className="profile__text"
-                defaultValue="Владислав"
-                required
-              />
-            ) : (
-              <p className="profile__text">
-                {email || "vladis.serd@gmail.com"}
-              </p>
-            )}
-          </div>
-        </form>
-        <div className="profile__links">
-          <button type="button" className="profile__link">
-            {!isEditing ? "Редактировать" : "Сохранить"}
-          </button>
-          <Link to="/signin" className="profile__link profile__link_red">
-            Выйти из аккаунта
-          </Link>
+    <section className="profile">
+      <h2 className="profile__title">Привет, {user.name}!</h2>
+      <form
+        id="profile__form"
+        onSubmit={handleSubmit}
+        className="profile__info"
+      >
+        <p className="profile__text">Имя</p>
+        <div className="profile__area">
+          <input
+            name="name"
+            className="profile__text"
+            value={values.name || ""}
+            onChange={handleChange}
+            required
+            disabled={!isEditing}
+          />
+          <p className="profile__input-error">{errors.name}</p>
         </div>
-      </section>
-    </>
+      </form>
+      <form className="profile__info">
+        <p className="profile__text">E-mail</p>
+        <div className="profile__area">
+          <input
+            name="email"
+            className="profile__text"
+            value={values.email}
+            onChange={handleChange}
+            required
+            disabled={!isEditing}
+          />
+          <p className="profile__input-error">{errors.email}</p>
+        </div>
+      </form>
+      <div className="profile__links">
+        {isEditing ? (
+          <>
+            <span className="profile__error">{errMsg}</span>
+            <button
+              disabled={
+                !isValid ||
+                (values.name === user.name && values.email === user.email)
+              }
+              type="submit"
+              className="profile__link"
+              form="profile__form"
+            >
+              Сохранить
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={() => setIsEditing(true)}
+            type="button"
+            className="profile__link"
+          >
+            Редактировать
+          </button>
+        )}
+
+        <Link
+          to="/signin"
+          onClick={handleSignout}
+          className="profile__link profile__link_red"
+        >
+          Выйти из аккаунта
+        </Link>
+      </div>
+    </section>
   );
 }
 

@@ -3,42 +3,67 @@ import { Link } from "react-router-dom";
 import "./Navigation.css";
 
 function Navigation({ isMainPage }) {
-    const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(true);
 
-    function handleOpenMenu(){
-        setIsOpen(!isOpen)
-    }
+  function handleOpenMenu() {
+    setIsOpen(!isOpen);
+  }
 
   return (
     <>
       <nav className="navigation">
-        <button className="navigation__button" onClick={handleOpenMenu}></button>
-        <div className={`nav__burger-container nav__burger-container${!isOpen ? '_active' : ''}`}>
+        <button
+          className="navigation__button"
+          onClick={handleOpenMenu}
+        ></button>
+        <div
+          className={`nav__burger-container nav__burger-container${
+            !isOpen ? "_active" : ""
+          }`}
+        >
           <div className="nav__burger">
-            <button className="nav__burger-close" onClick={handleOpenMenu}></button>
+            <button
+              className="nav__burger-close"
+              onClick={handleOpenMenu}
+            ></button>
             <ul className="nav__burger-list">
               <li className="nav__burger-item">
-                <Link to="/" className="navigation__link navigation__link_type_burger">
+                <Link
+                  to="/"
+                  className="navigation__link navigation__link_type_burger"
+                >
                   Главная
                 </Link>
               </li>
               <li className="nav__burger-item">
-                <Link to="/movies" className="navigation__link navigation__link_type_burger">
+                <Link
+                  to="/movies"
+                  className="navigation__link navigation__link_type_burger"
+                >
                   Фильмы
                 </Link>
               </li>
               <li className="nav__burger-item">
-                <Link to="/saved-movies" className="navigation__link navigation__link_type_burger">
+                <Link
+                  to="/saved-movies"
+                  className="navigation__link navigation__link_type_burger"
+                >
                   Сохраненные фильмы
                 </Link>
               </li>
-              <li className={`nav__burger-item nav__burger-item${isMainPage ? "" : "_film"}`}>
-                <Link to="/profile" className="navigation__link navigation__link_type_burger">
+              <li
+                className={`nav__burger-item nav__burger-item${
+                  isMainPage ? "" : "_film"
+                }`}
+              >
+                <Link
+                  to="/profile"
+                  className="navigation__link navigation__link_type_burger"
+                >
                   Аккаунт
                 </Link>
               </li>
             </ul>
-                
           </div>
         </div>
 

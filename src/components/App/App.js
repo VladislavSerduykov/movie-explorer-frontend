@@ -1,58 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { Route, useLocation, Routes, useNavigate } from 'react-router-dom';
-import './App.css';
-import Main from '../Main/Main';
-import Login from '../Login/Login';
-import Register from '../Register/Register';
-import Movies from '../Movies/Movies';
-import HeaderAuth from '../HeaderAuth/HeaderAuth';
-import Header from '../Header/Header';
-import SavedMovies from '../SavedMovies/SavedMovies';
-import Profile from '../Profile/Profile';
-import CurrentUserContext from '../../contexts/CurrentUserContext';
-import PageNotFound from '../PageNotFound/PageNotFound';
-import api from '../../utils/api';
-import auth from '../../utils/auth';
-
+import React from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import "./App.css";
+import Main from "../Main/Main";
+import Login from "../Login/Login";
+import Register from "../Register/Register";
+import Movies from "../Movies/Movies";
+import SavedMovies from "../SavedMovies/SavedMovies";
+import Profile from "../Profile/Profile";
+import CurrentUserProvider from "../../contexts/CurrentUserContext";
+import PageNotFound from "../PageNotFound/PageNotFound";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import { MoviesProvider } from "../../contexts/MovieContext";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [currentUser, setCurrentUser] = useState({})
-  const [moviesList, setMoviesList] = useState([])
-
-  const navigate = useNavigate();
-
-  //Авторизация 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      auth
-        .checkToken(token)
-        .then(() => {
-          api.setToken(token);
-          setIsLoggedIn(true);
-          navigate("/");
-        })
-        .catch(console.error)
-    }
-  },[navigate]);
+  const { pathname } = useLocation();
 
   return (
     <>
-    <CurrentUserContext.Provider value={currentUser}>
-    <Routes>
-      <Route path='/' element={<Main isLoggedIn={isLoggedIn}/>}/>
-      <Route path='/signin' element={<Login/>}/>
-      <Route path='/signup' element={<Register/>}/>
-      <Route path='/movies' element={<Movies isLoggedIn={isLoggedIn}/>}/>
-      <Route path='/saved-movies' element={<SavedMovies isLoggedIn={isLoggedIn}/>}/>
-      <Route path='/profile' element={<Profile isLoggedIn={isLoggedIn}/>}/>
-      <Route path='*' element={<PageNotFound/>}/>
+      <CurrentUserProvider>
+        <MoviesProvider>
+          {pathname === "/" ||
+          pathname === "/movies" ||
+          pathname === "/saved-movies" ||
+          pathname === "/profile" ? (
+            <Header />
+          ) : (
+            ""
+          )}
+          <Routes>
+            <Route path="/signin" element={<Login />} />
+            <Route path="/signup" element={<Register />} />
 
-      </Routes>
-      </CurrentUserContext.Provider>
+            <Route path="/" element={<Main />} />
+            <Route
+              path="/movies"
+              element={<ProtectedRoute element={Movies} />}
+            />
+            <Route
+              path="/saved-movies"
+              element={<ProtectedRoute element={SavedMovies} />}
+            />
+            <Route
+              path="/profile"
+              element={<ProtectedRoute element={Profile} />}
+            />
+
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+
+          {pathname === "/profile" ? "" : <Footer />}
+        </MoviesProvider>
+      </CurrentUserProvider>
     </>
- );
+  );
 }
 
 export default App;
