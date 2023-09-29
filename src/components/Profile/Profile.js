@@ -2,11 +2,11 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Profile.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import api from "../../utils/api";
+import MainApi from "../../utils/MainApi";
 import FormValidation from "../../hooks/formValidation";
 
 function Profile() {
-  const { user, setUser, handleSignout, errMsg, setErrMsg } =
+  const { user, setUser, handleSignOut, errMsg, setErrMsg } =
     useContext(CurrentUserContext);
 
   const [isEditing, setIsEditing] = useState(false);
@@ -37,7 +37,7 @@ function Profile() {
         setErrMsg("Вы пропустили поля");
         return;
       }
-      api
+      MainApi
         .updateUser(values)
         .then((data) => {
           setUser({ name: data.name, email: data.email });
@@ -113,8 +113,8 @@ function Profile() {
         )}
 
         <Link
-          to="/signin"
-          onClick={handleSignout}
+          to='/'
+          onClick={handleSignOut}
           className="profile__link profile__link_red"
         >
           Выйти из аккаунта

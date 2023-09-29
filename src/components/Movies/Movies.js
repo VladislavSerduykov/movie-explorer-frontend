@@ -63,7 +63,9 @@ function Movies() {
   };
 
   const isSaved = (movie) =>
-    savedMovies.some((savedMovie) => savedMovie._id === movie._id);
+  savedMovies.some((savedMovie) => savedMovie._id === movie._id);
+
+
 
   return (
     <section className="movies">

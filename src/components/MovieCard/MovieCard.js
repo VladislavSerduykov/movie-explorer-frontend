@@ -13,11 +13,11 @@ function MovieCard({ movie, saveMovie, removeMovie }) {
 
   useEffect(() => {
     const found = savedMovies.find(
-      (savedMovie) => savedMovie.movieId === movie.movieId
+      (savedMovie) => savedMovie.movieId === movie.id
     );
     setFoundMovie(found);
     setIsSaved(!!found);
-  }, [movie._id, savedMovies]);
+  }, [movie.id, savedMovies]);
 
   useEffect(() => {
     if (typeof movie.image === "object") {
@@ -27,7 +27,7 @@ function MovieCard({ movie, saveMovie, removeMovie }) {
     }
   }, [movie.image]);
 
-  const handleMovieBtnClick = useCallback(async () => {
+  const handleMovieBtnClick = () => {
     if (pathname === "/movies") {
       if (!isSaved) {
         saveMovie(movie);
@@ -41,10 +41,16 @@ function MovieCard({ movie, saveMovie, removeMovie }) {
         removeMovie(movie._id);
       }
     }
-  }, [isSaved, movie, pathname, foundMovie, saveMovie, removeMovie]);
+  };
+
   return (
     <article className="movie-card">
-      <a href={movie.trailerLink} target="blank" rel="noopener noreferrer">
+      <a
+        href={movie.trailerLink}
+        className="movie__card-link"
+        target="blank"
+        rel="noopener noreferrer"
+      >
         <img src={imageUrl} alt={movie.nameRU} className="movie-card__cover" />
       </a>
       <div className="movie-card__container">
@@ -62,12 +68,12 @@ function MovieCard({ movie, saveMovie, removeMovie }) {
           }`}
         ></button>
       </div>
-      <p className="movie-card__duration">
+      <span className="movie-card__duration">
         {movie.duration > 59 ? `${Math.floor(movie.duration / 60)} ч ` : null}{" "}
         {movie.duration > 59
           ? `${movie.duration - Math.floor(movie.duration / 60) * 60} м`
           : `${movie.duration} м`}
-      </p>
+      </span>
     </article>
   );
 }

@@ -48,15 +48,19 @@ function MovieGallery({ movies, isSaved, saveMovie, removeMovie }) {
 
   return (
     <section className="gallery">
+      <ul className="gallery__items">
       {currentMovies.map((movie) => (
+        <li className="gallery__item" key={movie._id || movie.id}
+        >
         <MovieCard
-          key={movie._id || movie.id}
           movie={movie}
           isSaved={isSaved(movie)}
           saveMovie={saveMovie}
           removeMovie={removeMovie}
         />
+        </li>
       ))}
+      </ul>
       {!isLoadMoreButtonDisabled && (
         <button
           className="gallery__button"

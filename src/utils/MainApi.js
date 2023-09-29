@@ -1,4 +1,4 @@
-import baseUrl from './apiConfig'
+const BASE_URL = 'https://api.films-explorer.nomoredomainsicu.ru'
 
 const createRequest = async (url, method, body = null, token = null) => {
     const options = {
@@ -22,16 +22,16 @@ const createRequest = async (url, method, body = null, token = null) => {
     return data;
   }
   
-  const getUser = (token) => createRequest(`${baseUrl}/users/me`, 'GET', null, token);
+  const getUser = (token) => createRequest(`${BASE_URL}/users/me`, 'GET', null, token);
   
-  const updateUser = (user) => createRequest(`${baseUrl}/users/me`, 'PATCH', {
+  const updateUser = (user) => createRequest(`${BASE_URL}/users/me`, 'PATCH', {
     name: user.name,
     email: user.email
   });
   
-  const getMovies = () => createRequest(`${baseUrl}/movies`, 'GET');
+  const getMovies = () => createRequest(`${BASE_URL}/movies`, 'GET');
   
-  const addMovie = (movie) => createRequest(`${baseUrl}/movies`, 'POST', {
+  const addMovie = (movie) => createRequest(`${BASE_URL}/movies`, 'POST', {
     country: movie.country,
     director: movie.director,
     duration: movie.duration,
@@ -45,9 +45,9 @@ const createRequest = async (url, method, body = null, token = null) => {
     movieId: movie.id
   });
   
-  const deleteMovie = (id) => createRequest(`${baseUrl}/movies/${id}`, 'DELETE');
+  const deleteMovie = (id) => createRequest(`${BASE_URL}/movies/${id}`, 'DELETE');
   
-  const api = {
+  const MainApi = {
     getUser,
     updateUser,
     getMovies,
@@ -55,4 +55,4 @@ const createRequest = async (url, method, body = null, token = null) => {
     deleteMovie
   };
   
-  export default api;
+  export default MainApi;

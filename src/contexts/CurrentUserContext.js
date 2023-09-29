@@ -1,30 +1,32 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../utils/api";
-import auth from "../utils/auth";
+import MainApi from "../utils/MainApi";
+
+import AuthApi from '../utils/AuthApi';
 import Preloader from "../components/Preloader/Preloader";
 
-export const CurrentUserContext = React.createContext();
+
+export const CurrentUserContext = React.createContext(null);
 
 const CurrentUserProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [errMsg, setErrMsg] = useState(null);
-  const [loggedIn, setIsloggedIn] = useState(false);
+  const [loggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
     setErrMsg(null);
-  }, [navigate]);
+  }, [navigate])
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      api
-        .getUser(token)
-        .then((res) => {
-          setUser(res);
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      MainApi.getUser(jwt)
+        .then((data) => {
+          setUser(data);
+          setIsLoggedIn(true)
           setIsLoading(false);
         })
         .catch((err) => {
@@ -36,30 +38,30 @@ const CurrentUserProvider = ({ children }) => {
     }
   }, []);
 
-  const handleSignout = () => {
+  function handleSignOut() {
     setUser(null);
     setErrMsg(null);
-    setIsloggedIn(false);
-    localStorage.removeItem("jwt");
-    localStorage.removeItem("searchTerm");
-    localStorage.removeItem("isChecked");
-    localStorage.removeItem("movies");
+    setIsLoggedIn(false)
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('searchTerm');
+    localStorage.removeItem('isChecked');
+    localStorage.removeItem('movies');
     navigate("/");
-  };
+  }
 
   const handleSignUp = useCallback(
     async (data) => {
       try {
         setErrMsg(null);
-        await auth.register(data);
-        const { token } = await auth.authorize({
+        await AuthApi.signUp(data);
+        const { token } = await AuthApi.signIn({
           email: data.email,
-          password: data.password,
+          password: data.password
         });
         localStorage.setItem("jwt", token);
         setUser(data);
+        setIsLoggedIn(true)
         setErrMsg(null);
-        setIsloggedIn(true);
         navigate("/movies");
       } catch (err) {
         throw err;
@@ -72,14 +74,15 @@ const CurrentUserProvider = ({ children }) => {
     async (data) => {
       setErrMsg(null);
       try {
-        const { token } = await auth.authorize(data);
+        const { token } = await AuthApi.signIn(data);
         localStorage.setItem("jwt", token);
-        return auth.checkToken(token).then((data) => {
-          setUser(data);
-          setIsloggedIn(true);
-          setErrMsg(null);
-          navigate("/");
-        });
+        return MainApi.getUser(token)
+          .then((userData) => {
+            setUser(userData);
+            setIsLoggedIn(true)
+            setErrMsg(null);
+            navigate("/movies");
+          });
       } catch (err) {
         throw err;
       }
@@ -96,12 +99,13 @@ const CurrentUserProvider = ({ children }) => {
       value={{
         user,
         setUser,
-        errMsg,
         loggedIn,
+        setIsLoggedIn,
+        errMsg,
         setErrMsg,
-        handleSignIn,
+        handleSignOut,
         handleSignUp,
-        handleSignout,
+        handleSignIn,
       }}
     >
       {children}

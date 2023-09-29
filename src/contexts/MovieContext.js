@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext,useEffect, useState } from "react";
 import { CurrentUserContext } from "./CurrentUserContext";
-import api from "../utils/api";
+import MainApi from "../utils/MainApi";
 
 export const MovieContext = React.createContext([]);
 
@@ -14,7 +14,8 @@ export const MoviesProvider = ({ children }) => {
     }
 
     try {
-      const data = await api.addMovie(movie);
+      const data = await MainApi.addMovie(movie);
+
       setSavedMovies((prevSavedMovie) => [...prevSavedMovie, data]);
       return data;
     } catch (err) {
@@ -28,7 +29,8 @@ export const MoviesProvider = ({ children }) => {
     }
 
     try {
-      await api.deleteMovie(id);
+      await MainApi.deleteMovie(id);
+
       setSavedMovies((prevSavedMovie) =>
         prevSavedMovie.filter((movie) => movie._id !== id)
       );
@@ -43,7 +45,7 @@ export const MoviesProvider = ({ children }) => {
         return;
       }
       try {
-        const movies = await api.getMovies();
+        const movies = await MainApi.getMovies();
         setSavedMovies(movies);
       } catch (err) {
         console.log(err);
@@ -52,6 +54,8 @@ export const MoviesProvider = ({ children }) => {
 
     fetchSavedMovies();
   }, [user]);
+
+
 
   return (
     <MovieContext.Provider

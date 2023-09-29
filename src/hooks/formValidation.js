@@ -10,8 +10,8 @@ function FormValidation(initialValues) {
     const nameRegex = /^[а-яА-ЯёЁa-zA-Z0-9]+$/;
     if (!nameRegex.test(value)) {
       return "Имя может содержать только буквы и цифры";
-    } else if (value.length < 8 || value.length > 40) {
-      return "Имя должно быть не менее 8 и не более 40 знаков";
+    } else if (value.length < 2 || value.length > 40) {
+      return "Имя должно быть не менее 2 и не более 40 знаков";
     } else {
       return "";
     }

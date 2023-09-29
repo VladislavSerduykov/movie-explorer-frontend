@@ -11,10 +11,7 @@ function SavedMovies() {
   const [isChecked, setIsChecked] = useState(false);
   const [formError, setFormError] = useState(null);
 
-  const filteredMovies = useMemo(
-    () => filterMovies(savedMovies, searchTerm, isChecked),
-    [savedMovies, searchTerm, isChecked]
-  );
+  const filteredMovies = useMemo(() => filterMovies(savedMovies, searchTerm, isChecked),[savedMovies, searchTerm,isChecked]);
 
   function handleSearch(term, isChecked) {
     setSearchTerm(term);
