@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import PageNotFound from "../PageNotFound/PageNotFound";
 import Main from "../Main/Main";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
@@ -9,7 +10,6 @@ import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import CurrentUserProvider from "../../contexts/CurrentUserContext";
-import PageNotFound from "../PageNotFound/PageNotFound";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { MoviesProvider } from "../../contexts/MovieContext";
@@ -30,10 +30,11 @@ function App() {
             ""
           )}
           <Routes>
+            <Route path="/*" element={<PageNotFound />} />
             <Route path="/signin" element={<Login />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/" element={<Main />} />
-            <Route path="*" element={<PageNotFound />} />
+
 
             <Route
               path="/movies"

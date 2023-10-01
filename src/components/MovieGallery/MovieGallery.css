@@ -8,7 +8,7 @@
     grid-template-columns: repeat(auto-fill, minmax(270px,1fr));
     column-gap: 20px;
     row-gap: 38px;
-    max-width: 100%;
+    padding: 0;
     padding-top: 80px;
     justify-items: center;
     list-style: none;

@@ -45,11 +45,12 @@ function Profile() {
           resetForm();
         })
         .catch((err) => {
-          setErrMsg(err);
+          setErrMsg(err.message);
         });
     },
     [setUser, setErrMsg, values, resetForm]
   );
+  console.log(errMsg)
 
   return (
     <section className="profile">

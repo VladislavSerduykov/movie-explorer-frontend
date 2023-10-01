@@ -79,6 +79,10 @@
     opacity: .7;
 }
 
+.profile__link:disabled{
+    opacity: .2;
+}
+
 .profile__link_red{
     color: #EE3465;
 }

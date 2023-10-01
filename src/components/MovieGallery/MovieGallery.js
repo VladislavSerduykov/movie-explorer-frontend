@@ -5,9 +5,10 @@ import MovieCard from "../MovieCard/MovieCard";
 function MovieGallery({ movies, isSaved, saveMovie, removeMovie }) {
   const settings = [
     { width: 1280, moviesPerPage: 16, addMovies: 4 },
-    { width: 990, moviesPerPage: 9, addMovies: 3 },
+    { width: 991, moviesPerPage: 12, addMovies: 3 },
+    { width: 990, moviesPerPage: 8, addMovies: 3 },
     { width: 768, moviesPerPage: 8, addMovies: 2 },
-    { width: 320, moviesPerPage: 5, addMovies: 2 },
+    { width: 320, moviesPerPage: 5, addMovies: 2 }
   ];
   const [windowDimensions, setWindowDimensions] = useState(window.innerWidth);
   const [moviesPerPage, setMoviesPerPage] = useState(0);
