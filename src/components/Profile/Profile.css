@@ -81,6 +81,7 @@
 
 .profile__link:disabled{
     opacity: .2;
+    cursor: not-allowed;
 }
 
 .profile__link_red{
