@@ -1,23 +1,46 @@
 import "./SavedMovies.css";
 import MovieGallery from "../MovieGallery/MovieGallery";
 import SearchForm from "../SearchForm/SearchForm";
-import Header from "../Header/Header";
-import Navigation from "../Navigation/Navigation";
-import HeaderAuth from "../HeaderAuth/HeaderAuth";
-import cards from "../../utils/SavedMovies";
-import Footer from "../Footer/Footer";
+import { useContext, useMemo, useState } from "react";
+import { filterMovies } from "../../utils/movieFilter";
+import { MovieContext } from "../../contexts/MovieContext";
 
-function SavedMovies({ isLoggedIn }) {
+function SavedMovies() {
+  const { savedMovies, removeMovie } = useContext(MovieContext);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [formError, setFormError] = useState(null);
+
+  const filteredMovies = useMemo(() => filterMovies(savedMovies, searchTerm, isChecked),[savedMovies, searchTerm,isChecked]);
+
+  function handleSearch(term, isChecked) {
+    setSearchTerm(term);
+    setIsChecked(isChecked);
+  }
+
   return (
     <>
-      <Header isMainPage={false}>
-        {isLoggedIn ? <Navigation isMainPage={false}/> : <HeaderAuth/>}
-      </Header>
       <section className="saved-movies">
-        <SearchForm />
-        <MovieGallery cards={cards} buttonMore={true} />
+        <SearchForm
+          onError={setFormError}
+          onSubmit={handleSearch}
+          searchTerm={searchTerm || ""}
+          isChecked={isChecked}
+          isOnSavedMoviesPage={true}
+        />
+        {formError && <p>{formError}</p>}
+        {filteredMovies.length === 0 && (
+          <p style={{ color: "#fff", justifySelf: "center" }}>
+            Ничего не найдено
+          </p>
+        )}
+        <MovieGallery
+          movies={filteredMovies}
+          isSaved={() => true}
+          saveMovie={() => {}}
+          removeMovie={removeMovie}
+        />
       </section>
-      <Footer />
     </>
   );
 }

@@ -1,24 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SearchForm.css";
+import Checkbox from "../Checkbox/Checkbox";
 
-function SearchForm() {
+function SearchForm({
+  onSubmit,
+  searchTerm,
+  isChecked,
+  onError,
+  isOnSavedMoviesPage,
+}) {
+  const [input, setInput] = useState(searchTerm || "");
+  const [checkbox, setCheckbox] = useState(isChecked || false);
+
+  useEffect(() => {
+    setInput(searchTerm);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    setCheckbox(isChecked);
+  }, [isChecked]);
+
+  const handleCheckboxChange = () => {
+    const newCheckboxState = !checkbox;
+    setCheckbox(newCheckboxState);
+    onSubmit(input, newCheckboxState);
+  };
+
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!input && !isOnSavedMoviesPage) {
+      onError("Нужно ввести ключевое слово");
+    } else {
+      onError(null);
+      onSubmit(input, checkbox);
+    }
+  };
   return (
-    <form className="search__form">
+    <form onSubmit={handleSubmit} className="search__form">
       <div className="search">
         <div className="search__inputs">
-          <input type="text" className="search__item" placeholder="Фильм" required />
-          <button className="search__button-find" type="submit">
-            Найти
-          </button>
+          <input
+            className="search__item"
+            placeholder="Фильм"
+            value={input}
+            onChange={handleInputChange}
+            required
+          />
+          <button className="search__button-find">Найти</button>
         </div>
       </div>
       <div className="search__container">
-          <label class="search__toggle-button">
-            <input type="checkbox" class="search__input-hidden" />
-            <span class="search__slider"></span>
-          </label>
-          <p className="search__text">Короткометражки</p>
-        </div>
+        <Checkbox checked={checkbox} onChange={handleCheckboxChange} />
+        <p className="search__text">Короткометражки</p>
+      </div>
     </form>
   );
 }
