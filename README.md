@@ -1,6 +1,7 @@
 ## Дипломная работа для Я.Практикума 
 
 Ссылка на сервер: http://api.films-explorer.nomoredomainsicu.ru/
+
 Сслыка на сайт: https://films-explorer.nomoredomainsicu.ru/signin
 
 Приложение Movies Explorer - сервис, в котором можно найти фильмы по запросу и сохранить в личном кабинете.
